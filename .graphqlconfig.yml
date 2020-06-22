@@ -1,0 +1,5 @@
+schema: schema.graphql
+documents: "**/*.{ts,tsx,gql,graphql}"
+extensions:
+  endpoints:
+    default: https://excalidraw.herokuapp.com/v1/graphql

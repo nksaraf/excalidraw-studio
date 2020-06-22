@@ -1,0 +1,27 @@
+diff --git a/node_modules/excalidraw/index.d.ts b/node_modules/excalidraw/index.d.ts
+new file mode 100644
+index 0000000..00c2f98
+--- /dev/null
++++ b/node_modules/excalidraw/index.d.ts
+@@ -0,0 +1,21 @@
++import React from "react";
++
++export interface ExcalidrawProps {
++  width: number;
++  height: number;
++  onChange?: Function;
++  onBlur?: Function;
++  initialData: readonly ExcalidrawElement[];
++  user: {
++    name?: string | null | undefined;
++  };
++  onUsernameChange?: (username: string) => void;
++  onResize: () => void;
++  options: {
++    zenModeEnabled: boolean;
++    viewBackgroundColor: string;
++  };
++}
++
++const Excalidraw: React.FC<ExcalidrawProps>;
++export default Excalidraw;

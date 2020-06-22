@@ -1,0 +1,1165 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+columns and relationships of "drawings"
+"""
+type drawings {
+  created_at: timestamptz!
+
+  """An object relationship"""
+  file: files!
+  file_id: Int!
+  id: Int!
+  name: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "drawings"
+"""
+type drawings_aggregate {
+  aggregate: drawings_aggregate_fields
+  nodes: [drawings!]!
+}
+
+"""
+aggregate fields of "drawings"
+"""
+type drawings_aggregate_fields {
+  avg: drawings_avg_fields
+  count(columns: [drawings_select_column!], distinct: Boolean): Int
+  max: drawings_max_fields
+  min: drawings_min_fields
+  stddev: drawings_stddev_fields
+  stddev_pop: drawings_stddev_pop_fields
+  stddev_samp: drawings_stddev_samp_fields
+  sum: drawings_sum_fields
+  var_pop: drawings_var_pop_fields
+  var_samp: drawings_var_samp_fields
+  variance: drawings_variance_fields
+}
+
+"""
+order by aggregate values of table "drawings"
+"""
+input drawings_aggregate_order_by {
+  avg: drawings_avg_order_by
+  count: order_by
+  max: drawings_max_order_by
+  min: drawings_min_order_by
+  stddev: drawings_stddev_order_by
+  stddev_pop: drawings_stddev_pop_order_by
+  stddev_samp: drawings_stddev_samp_order_by
+  sum: drawings_sum_order_by
+  var_pop: drawings_var_pop_order_by
+  var_samp: drawings_var_samp_order_by
+  variance: drawings_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "drawings"
+"""
+input drawings_arr_rel_insert_input {
+  data: [drawings_insert_input!]!
+  on_conflict: drawings_on_conflict
+}
+
+"""aggregate avg on columns"""
+type drawings_avg_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by avg() on columns of table "drawings"
+"""
+input drawings_avg_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "drawings". All fields are combined with a logical 'AND'.
+"""
+input drawings_bool_exp {
+  _and: [drawings_bool_exp]
+  _not: drawings_bool_exp
+  _or: [drawings_bool_exp]
+  created_at: timestamptz_comparison_exp
+  file: files_bool_exp
+  file_id: Int_comparison_exp
+  id: Int_comparison_exp
+  name: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "drawings"
+"""
+enum drawings_constraint {
+  """unique or primary key constraint"""
+  drawings_pkey
+}
+
+"""
+input type for incrementing integer column in table "drawings"
+"""
+input drawings_inc_input {
+  file_id: Int
+  id: Int
+}
+
+"""
+input type for inserting data into table "drawings"
+"""
+input drawings_insert_input {
+  created_at: timestamptz
+  file: files_obj_rel_insert_input
+  file_id: Int
+  id: Int
+  name: String
+  updated_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type drawings_max_fields {
+  created_at: timestamptz
+  file_id: Int
+  id: Int
+  name: String
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "drawings"
+"""
+input drawings_max_order_by {
+  created_at: order_by
+  file_id: order_by
+  id: order_by
+  name: order_by
+  updated_at: order_by
+}
+
+"""aggregate min on columns"""
+type drawings_min_fields {
+  created_at: timestamptz
+  file_id: Int
+  id: Int
+  name: String
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "drawings"
+"""
+input drawings_min_order_by {
+  created_at: order_by
+  file_id: order_by
+  id: order_by
+  name: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "drawings"
+"""
+type drawings_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [drawings!]!
+}
+
+"""
+input type for inserting object relation for remote table "drawings"
+"""
+input drawings_obj_rel_insert_input {
+  data: drawings_insert_input!
+  on_conflict: drawings_on_conflict
+}
+
+"""
+on conflict condition type for table "drawings"
+"""
+input drawings_on_conflict {
+  constraint: drawings_constraint!
+  update_columns: [drawings_update_column!]!
+  where: drawings_bool_exp
+}
+
+"""
+ordering options when selecting data from "drawings"
+"""
+input drawings_order_by {
+  created_at: order_by
+  file: files_order_by
+  file_id: order_by
+  id: order_by
+  name: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: "drawings"
+"""
+input drawings_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "drawings"
+"""
+enum drawings_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  file_id
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  updated_at
+}
+
+"""
+input type for updating data in table "drawings"
+"""
+input drawings_set_input {
+  created_at: timestamptz
+  file_id: Int
+  id: Int
+  name: String
+  updated_at: timestamptz
+}
+
+"""aggregate stddev on columns"""
+type drawings_stddev_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "drawings"
+"""
+input drawings_stddev_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type drawings_stddev_pop_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "drawings"
+"""
+input drawings_stddev_pop_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type drawings_stddev_samp_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "drawings"
+"""
+input drawings_stddev_samp_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type drawings_sum_fields {
+  file_id: Int
+  id: Int
+}
+
+"""
+order by sum() on columns of table "drawings"
+"""
+input drawings_sum_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""
+update columns of table "drawings"
+"""
+enum drawings_update_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  file_id
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+
+  """column name"""
+  updated_at
+}
+
+"""aggregate var_pop on columns"""
+type drawings_var_pop_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "drawings"
+"""
+input drawings_var_pop_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type drawings_var_samp_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "drawings"
+"""
+input drawings_var_samp_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type drawings_variance_fields {
+  file_id: Float
+  id: Float
+}
+
+"""
+order by variance() on columns of table "drawings"
+"""
+input drawings_variance_order_by {
+  file_id: order_by
+  id: order_by
+}
+
+"""
+columns and relationships of "files"
+"""
+type files {
+  contents(
+    """JSON select path"""
+    path: String
+  ): jsonb!
+  created_at: timestamptz!
+  id: Int!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "files"
+"""
+type files_aggregate {
+  aggregate: files_aggregate_fields
+  nodes: [files!]!
+}
+
+"""
+aggregate fields of "files"
+"""
+type files_aggregate_fields {
+  avg: files_avg_fields
+  count(columns: [files_select_column!], distinct: Boolean): Int
+  max: files_max_fields
+  min: files_min_fields
+  stddev: files_stddev_fields
+  stddev_pop: files_stddev_pop_fields
+  stddev_samp: files_stddev_samp_fields
+  sum: files_sum_fields
+  var_pop: files_var_pop_fields
+  var_samp: files_var_samp_fields
+  variance: files_variance_fields
+}
+
+"""
+order by aggregate values of table "files"
+"""
+input files_aggregate_order_by {
+  avg: files_avg_order_by
+  count: order_by
+  max: files_max_order_by
+  min: files_min_order_by
+  stddev: files_stddev_order_by
+  stddev_pop: files_stddev_pop_order_by
+  stddev_samp: files_stddev_samp_order_by
+  sum: files_sum_order_by
+  var_pop: files_var_pop_order_by
+  var_samp: files_var_samp_order_by
+  variance: files_variance_order_by
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input files_append_input {
+  contents: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "files"
+"""
+input files_arr_rel_insert_input {
+  data: [files_insert_input!]!
+  on_conflict: files_on_conflict
+}
+
+"""aggregate avg on columns"""
+type files_avg_fields {
+  id: Float
+}
+
+"""
+order by avg() on columns of table "files"
+"""
+input files_avg_order_by {
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "files". All fields are combined with a logical 'AND'.
+"""
+input files_bool_exp {
+  _and: [files_bool_exp]
+  _not: files_bool_exp
+  _or: [files_bool_exp]
+  contents: jsonb_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "files"
+"""
+enum files_constraint {
+  """unique or primary key constraint"""
+  files_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input files_delete_at_path_input {
+  contents: [String]
+}
+
+"""
+delete the array element with specified index (negative integers count from the
+end). throws an error if top level container is not an array
+"""
+input files_delete_elem_input {
+  contents: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input files_delete_key_input {
+  contents: String
+}
+
+"""
+input type for incrementing integer column in table "files"
+"""
+input files_inc_input {
+  id: Int
+}
+
+"""
+input type for inserting data into table "files"
+"""
+input files_insert_input {
+  contents: jsonb
+  created_at: timestamptz
+  id: Int
+  updated_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type files_max_fields {
+  created_at: timestamptz
+  id: Int
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "files"
+"""
+input files_max_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+}
+
+"""aggregate min on columns"""
+type files_min_fields {
+  created_at: timestamptz
+  id: Int
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "files"
+"""
+input files_min_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "files"
+"""
+type files_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [files!]!
+}
+
+"""
+input type for inserting object relation for remote table "files"
+"""
+input files_obj_rel_insert_input {
+  data: files_insert_input!
+  on_conflict: files_on_conflict
+}
+
+"""
+on conflict condition type for table "files"
+"""
+input files_on_conflict {
+  constraint: files_constraint!
+  update_columns: [files_update_column!]!
+  where: files_bool_exp
+}
+
+"""
+ordering options when selecting data from "files"
+"""
+input files_order_by {
+  contents: order_by
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: "files"
+"""
+input files_pk_columns_input {
+  id: Int!
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input files_prepend_input {
+  contents: jsonb
+}
+
+"""
+select columns of table "files"
+"""
+enum files_select_column {
+  """column name"""
+  contents
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  updated_at
+}
+
+"""
+input type for updating data in table "files"
+"""
+input files_set_input {
+  contents: jsonb
+  created_at: timestamptz
+  id: Int
+  updated_at: timestamptz
+}
+
+"""aggregate stddev on columns"""
+type files_stddev_fields {
+  id: Float
+}
+
+"""
+order by stddev() on columns of table "files"
+"""
+input files_stddev_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type files_stddev_pop_fields {
+  id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "files"
+"""
+input files_stddev_pop_order_by {
+  id: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type files_stddev_samp_fields {
+  id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "files"
+"""
+input files_stddev_samp_order_by {
+  id: order_by
+}
+
+"""aggregate sum on columns"""
+type files_sum_fields {
+  id: Int
+}
+
+"""
+order by sum() on columns of table "files"
+"""
+input files_sum_order_by {
+  id: order_by
+}
+
+"""
+update columns of table "files"
+"""
+enum files_update_column {
+  """column name"""
+  contents
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  updated_at
+}
+
+"""aggregate var_pop on columns"""
+type files_var_pop_fields {
+  id: Float
+}
+
+"""
+order by var_pop() on columns of table "files"
+"""
+input files_var_pop_order_by {
+  id: order_by
+}
+
+"""aggregate var_samp on columns"""
+type files_var_samp_fields {
+  id: Float
+}
+
+"""
+order by var_samp() on columns of table "files"
+"""
+input files_var_samp_order_by {
+  id: order_by
+}
+
+"""aggregate variance on columns"""
+type files_variance_fields {
+  id: Float
+}
+
+"""
+order by variance() on columns of table "files"
+"""
+input files_variance_order_by {
+  id: order_by
+}
+
+"""
+expression to compare columns of type Int. All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+scalar jsonb
+
+"""
+expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  """is the column contained in the given json value"""
+  _contained_in: jsonb
+
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """does the string exist as a top-level key in the column"""
+  _has_key: String
+
+  """do all of these strings exist as top-level keys in the column"""
+  _has_keys_all: [String!]
+
+  """do any of these strings exist as top-level keys in the column"""
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "drawings"
+  """
+  delete_drawings(
+    """filter the rows which have to be deleted"""
+    where: drawings_bool_exp!
+  ): drawings_mutation_response
+
+  """
+  delete single row from the table: "drawings"
+  """
+  delete_drawings_by_pk(id: Int!): drawings
+
+  """
+  delete data from the table: "files"
+  """
+  delete_files(
+    """filter the rows which have to be deleted"""
+    where: files_bool_exp!
+  ): files_mutation_response
+
+  """
+  delete single row from the table: "files"
+  """
+  delete_files_by_pk(id: Int!): files
+
+  """
+  insert data into the table: "drawings"
+  """
+  insert_drawings(
+    """the rows to be inserted"""
+    objects: [drawings_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: drawings_on_conflict
+  ): drawings_mutation_response
+
+  """
+  insert a single row into the table: "drawings"
+  """
+  insert_drawings_one(
+    """the row to be inserted"""
+    object: drawings_insert_input!
+
+    """on conflict condition"""
+    on_conflict: drawings_on_conflict
+  ): drawings
+
+  """
+  insert data into the table: "files"
+  """
+  insert_files(
+    """the rows to be inserted"""
+    objects: [files_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: files_on_conflict
+  ): files_mutation_response
+
+  """
+  insert a single row into the table: "files"
+  """
+  insert_files_one(
+    """the row to be inserted"""
+    object: files_insert_input!
+
+    """on conflict condition"""
+    on_conflict: files_on_conflict
+  ): files
+
+  """
+  update data of the table: "drawings"
+  """
+  update_drawings(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: drawings_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: drawings_set_input
+
+    """filter the rows which have to be updated"""
+    where: drawings_bool_exp!
+  ): drawings_mutation_response
+
+  """
+  update single row of the table: "drawings"
+  """
+  update_drawings_by_pk(
+    """increments the integer columns with given value of the filtered values"""
+    _inc: drawings_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: drawings_set_input
+    pk_columns: drawings_pk_columns_input!
+  ): drawings
+
+  """
+  update data of the table: "files"
+  """
+  update_files(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: files_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: files_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: files_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: files_delete_key_input
+
+    """increments the integer columns with given value of the filtered values"""
+    _inc: files_inc_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: files_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: files_set_input
+
+    """filter the rows which have to be updated"""
+    where: files_bool_exp!
+  ): files_mutation_response
+
+  """
+  update single row of the table: "files"
+  """
+  update_files_by_pk(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: files_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: files_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: files_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: files_delete_key_input
+
+    """increments the integer columns with given value of the filtered values"""
+    _inc: files_inc_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: files_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: files_set_input
+    pk_columns: files_pk_columns_input!
+  ): files
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "drawings"
+  """
+  drawings(
+    """distinct select on columns"""
+    distinct_on: [drawings_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [drawings_order_by!]
+
+    """filter the rows returned"""
+    where: drawings_bool_exp
+  ): [drawings!]!
+
+  """
+  fetch aggregated fields from the table: "drawings"
+  """
+  drawings_aggregate(
+    """distinct select on columns"""
+    distinct_on: [drawings_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [drawings_order_by!]
+
+    """filter the rows returned"""
+    where: drawings_bool_exp
+  ): drawings_aggregate!
+
+  """fetch data from the table: "drawings" using primary key columns"""
+  drawings_by_pk(id: Int!): drawings
+
+  """
+  fetch data from the table: "files"
+  """
+  files(
+    """distinct select on columns"""
+    distinct_on: [files_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [files_order_by!]
+
+    """filter the rows returned"""
+    where: files_bool_exp
+  ): [files!]!
+
+  """
+  fetch aggregated fields from the table: "files"
+  """
+  files_aggregate(
+    """distinct select on columns"""
+    distinct_on: [files_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [files_order_by!]
+
+    """filter the rows returned"""
+    where: files_bool_exp
+  ): files_aggregate!
+
+  """fetch data from the table: "files" using primary key columns"""
+  files_by_pk(id: Int!): files
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "drawings"
+  """
+  drawings(
+    """distinct select on columns"""
+    distinct_on: [drawings_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [drawings_order_by!]
+
+    """filter the rows returned"""
+    where: drawings_bool_exp
+  ): [drawings!]!
+
+  """
+  fetch aggregated fields from the table: "drawings"
+  """
+  drawings_aggregate(
+    """distinct select on columns"""
+    distinct_on: [drawings_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [drawings_order_by!]
+
+    """filter the rows returned"""
+    where: drawings_bool_exp
+  ): drawings_aggregate!
+
+  """fetch data from the table: "drawings" using primary key columns"""
+  drawings_by_pk(id: Int!): drawings
+
+  """
+  fetch data from the table: "files"
+  """
+  files(
+    """distinct select on columns"""
+    distinct_on: [files_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [files_order_by!]
+
+    """filter the rows returned"""
+    where: files_bool_exp
+  ): [files!]!
+
+  """
+  fetch aggregated fields from the table: "files"
+  """
+  files_aggregate(
+    """distinct select on columns"""
+    distinct_on: [files_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [files_order_by!]
+
+    """filter the rows returned"""
+    where: files_bool_exp
+  ): files_aggregate!
+
+  """fetch data from the table: "files" using primary key columns"""
+  files_by_pk(id: Int!): files
+}
+
+scalar timestamptz
+
+"""
+expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+

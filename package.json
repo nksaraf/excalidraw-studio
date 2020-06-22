@@ -2,20 +2,38 @@
   "name": "with-typescript",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
+    "dev": "magiql && next",
+    "graphql": "magiql",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "postinstall": "yarn patch-package",
+    "graphql:save": "get-graphql-schema https://excalidraw.herokuapp.com/v1/graphql > schema.graphql"
   },
   "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "@types/mongoose": "^5.7.27",
+    "chakra-ui": "^0.3.9",
+    "emotion-theming": "^10.0.27",
+    "excalidraw": "^0.3.0",
+    "graphql": "^15.1.0",
+    "magiql": "^0.0.3-next.1",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.9.19",
     "next": "latest",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-hook-context": "^0.0.1",
+    "react-query": "^1.5.9",
+    "react-query-devtools": "^1.1.17"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
     "@types/react": "^16.9.16",
     "@types/react-dom": "^16.9.4",
+    "patch-package": "^6.2.2",
     "typescript": "3.7.3"
   },
   "license": "ISC"
