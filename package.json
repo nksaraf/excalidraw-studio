@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "magiql && next",
     "graphql": "magiql",
-    "build": "next build",
+    "build": "magiql && next build",
     "start": "next start",
     "type-check": "tsc",
     "postinstall": "yarn patch-package",
