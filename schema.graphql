@@ -8,12 +8,19 @@ schema {
 columns and relationships of "drawings"
 """
 type drawings {
+  collaboration_link: String
   created_at: timestamptz!
 
   """An object relationship"""
   file: files!
   file_id: Int!
   id: Int!
+
+  """
+  A computed field, executes function "drawing_is_live"
+  """
+  is_live: Boolean
+  last_edited: timestamptz!
   name: String!
   updated_at: timestamptz!
 }
@@ -89,10 +96,12 @@ input drawings_bool_exp {
   _and: [drawings_bool_exp]
   _not: drawings_bool_exp
   _or: [drawings_bool_exp]
+  collaboration_link: String_comparison_exp
   created_at: timestamptz_comparison_exp
   file: files_bool_exp
   file_id: Int_comparison_exp
   id: Int_comparison_exp
+  last_edited: timestamptz_comparison_exp
   name: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
@@ -117,19 +126,23 @@ input drawings_inc_input {
 input type for inserting data into table "drawings"
 """
 input drawings_insert_input {
+  collaboration_link: String
   created_at: timestamptz
   file: files_obj_rel_insert_input
   file_id: Int
   id: Int
+  last_edited: timestamptz
   name: String
   updated_at: timestamptz
 }
 
 """aggregate max on columns"""
 type drawings_max_fields {
+  collaboration_link: String
   created_at: timestamptz
   file_id: Int
   id: Int
+  last_edited: timestamptz
   name: String
   updated_at: timestamptz
 }
@@ -138,18 +151,22 @@ type drawings_max_fields {
 order by max() on columns of table "drawings"
 """
 input drawings_max_order_by {
+  collaboration_link: order_by
   created_at: order_by
   file_id: order_by
   id: order_by
+  last_edited: order_by
   name: order_by
   updated_at: order_by
 }
 
 """aggregate min on columns"""
 type drawings_min_fields {
+  collaboration_link: String
   created_at: timestamptz
   file_id: Int
   id: Int
+  last_edited: timestamptz
   name: String
   updated_at: timestamptz
 }
@@ -158,9 +175,11 @@ type drawings_min_fields {
 order by min() on columns of table "drawings"
 """
 input drawings_min_order_by {
+  collaboration_link: order_by
   created_at: order_by
   file_id: order_by
   id: order_by
+  last_edited: order_by
   name: order_by
   updated_at: order_by
 }
@@ -197,10 +216,12 @@ input drawings_on_conflict {
 ordering options when selecting data from "drawings"
 """
 input drawings_order_by {
+  collaboration_link: order_by
   created_at: order_by
   file: files_order_by
   file_id: order_by
   id: order_by
+  last_edited: order_by
   name: order_by
   updated_at: order_by
 }
@@ -217,6 +238,9 @@ select columns of table "drawings"
 """
 enum drawings_select_column {
   """column name"""
+  collaboration_link
+
+  """column name"""
   created_at
 
   """column name"""
@@ -224,6 +248,9 @@ enum drawings_select_column {
 
   """column name"""
   id
+
+  """column name"""
+  last_edited
 
   """column name"""
   name
@@ -236,9 +263,11 @@ enum drawings_select_column {
 input type for updating data in table "drawings"
 """
 input drawings_set_input {
+  collaboration_link: String
   created_at: timestamptz
   file_id: Int
   id: Int
+  last_edited: timestamptz
   name: String
   updated_at: timestamptz
 }
@@ -304,6 +333,9 @@ update columns of table "drawings"
 """
 enum drawings_update_column {
   """column name"""
+  collaboration_link
+
+  """column name"""
   created_at
 
   """column name"""
@@ -311,6 +343,9 @@ enum drawings_update_column {
 
   """column name"""
   id
+
+  """column name"""
+  last_edited
 
   """column name"""
   name

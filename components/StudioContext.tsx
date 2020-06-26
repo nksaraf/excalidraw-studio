@@ -1,8 +1,7 @@
 import { createContext } from "create-hook-context";
-import React from "react";
+import React, { useRef } from "react";
 import { useQuery, gql, Drawings } from "magiql";
-import { createCollaborationLink } from "./SideBar";
-import { useRouter } from "next/router";
+import { useDisclosure } from "@chakra-ui/core";
 
 const useDrawingById = ({ id }: { id: number | undefined }) => {
   const { data, ...query } = useQuery<
@@ -45,7 +44,8 @@ const useDrawingById = ({ id }: { id: number | undefined }) => {
   return {
     ...query,
     data,
-    drawing: initialData,
+    drawing: data?.drawings_by_pk,
+    drawingData: initialData,
   };
 };
 
@@ -54,17 +54,47 @@ export const [StudioProvider, useStudio] = createContext(
     const [drawingId, setDrawingId] = React.useState<number | undefined>(
       initialDrawingId
     );
-    const router = useRouter();
 
     const query = useDrawingById({ id: drawingId });
-    // React.useEffect(() => {
-    // if (!router.asPath.includes("room") && drawingId) {
-    //   // const link = createCollaborationLink();
-    //   // router.replace("/" + link);
-    // }
-    // }, [drawingId, query.status]);
+    const drawerState = useDisclosure(true);
+    const drawerButtonRef = useRef(true);
 
-    return { drawingId, setDrawingId, ...query };
+    React.useEffect(() => {
+      if (drawingId !== undefined) drawerState.onClose();
+    }, [drawingId]);
+
+    const collaboration = useQuery(
+      gql`
+        query drawingByCollaboration($collaboration_link: String) {
+          drawings(
+            where: { collaboration_link: { _eq: $collaboration_link } }
+          ) {
+            is_live
+            collaboration_link
+            id
+            last_edited
+            name
+            updated_at
+            created_at
+          }
+        }
+      `,
+      {
+        variables: {
+          collaboration_link:
+            typeof window !== "undefined" ? location.hash : undefined,
+        },
+        enabled: typeof window !== "undefined",
+        refetchOnWindowFocus: false,
+        onSuccess: (data: any) => {
+          if (data.drawings.length > 0) {
+            setDrawingId(data.drawings[0].id);
+          }
+        },
+      }
+    );
+
+    return { drawingId, setDrawingId, ...query, drawerState, drawerButtonRef };
   },
   undefined,
   "Studio"

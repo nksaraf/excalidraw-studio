@@ -8,7 +8,7 @@ import Head from "next/head";
 
 export const Studio = () => {
   return (
-    <StudioProvider initialDrawingId={2}>
+    <StudioProvider>
       <Head>
         <title>Studio - Excalidraw</title>
         <link
@@ -18,6 +18,7 @@ export const Studio = () => {
       </Head>
       <Flex height="100vh" direction="column" width="100vw" overflow="hidden">
         <DrawingsMenu />
+        <DrawingHeader />
         <Drawing />
         <Devtools />
       </Flex>

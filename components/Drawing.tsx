@@ -1,18 +1,18 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { Box } from "@chakra-ui/core";
-import { CanvasProps } from "components/Excalidraw";
+import { CanvasProps } from "components/Canvas";
 import { useStudio } from "components/StudioContext";
 
-const Canvas = dynamic(() => import("components/Excalidraw"), {
+const Canvas = dynamic(() => import("components/Canvas"), {
   ssr: false,
 });
 
 export const Drawing = (props: CanvasProps) => {
-  const { status, drawing, drawingId } = useStudio();
+  const { status, drawingData, drawingId } = useStudio();
   return status === "success" ? (
     <Canvas
-      initialData={drawing.elements}
+      initialData={drawingData.elements}
       key={drawingId}
       resolveHeight={(h) => h - 48}
       {...props}
