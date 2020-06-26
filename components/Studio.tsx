@@ -2,9 +2,10 @@ import React from "react";
 import { Flex } from "@chakra-ui/core";
 import { Devtools } from "magiql";
 import { StudioProvider } from "components/StudioContext";
-import { DrawingsMenu } from "components/SideBar";
+import { DrawingsMenu } from "components/DrawingsMenu";
 import { Drawing } from "components/Drawing";
 import Head from "next/head";
+import { DrawingHeader } from "./DrawingHeader";
 
 export const Studio = () => {
   return (

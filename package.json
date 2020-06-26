@@ -26,7 +26,7 @@
     "react-dom": "^16.12.0",
     "react-icons": "npm:@nksaraf/react-icons",
     "react-query": "npm:@nksaraf/react-query",
-    "react-query-devtools": "^2.0.0",
+    "react-query-devtools": "^2.1.1",
     "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {

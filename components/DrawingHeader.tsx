@@ -1,8 +1,15 @@
-import { Flex, Button } from "@chakra-ui/core";
-import { DrawingTitle } from "./SideBar";
-import { SlSafetyVest } from "react-icons/sl";
+import { Flex, Button, useTheme } from "@chakra-ui/core";
+import { DrawingTitle } from "./DrawingsMenu";
+import { SlSafetyVest, SlNavigationMenu } from "react-icons/sl";
+import { useStudio } from "./StudioContext";
 
 export function DrawingHeader() {
+  const theme = useTheme();
+  const {
+    drawerState: { onOpen },
+    drawerButtonRef,
+  } = useStudio();
+
   return (
     <Flex
       height="48px"
@@ -15,7 +22,7 @@ export function DrawingHeader() {
       <Button
         aria-label="open drawings menu"
         onClick={onOpen}
-        ref={btnRef}
+        ref={drawerButtonRef}
         mr={4}
       >
         <SlNavigationMenu size={16} color={theme.colors.gray[600]} />

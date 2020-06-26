@@ -33,11 +33,6 @@ const [CollaborationSessionProvider, useCollaborationSession] = createContext(
 
         return () => {
           clearInterval(interval);
-          // updateLastEdited({
-          //   id: drawingId,
-          //   last_edited: "now()",
-          //   collaboration_link: collaborationLink,
-          // } as any);
         };
       }
     }, [collaborationLink, drawingId]);
@@ -51,7 +46,9 @@ const [CollaborationSessionProvider, useCollaborationSession] = createContext(
       appStateRef,
       elementsRef,
     };
-  }
+  },
+  undefined,
+  "CollaborationSession"
 );
 
 export interface CanvasProps extends Partial<ExcalidrawProps> {

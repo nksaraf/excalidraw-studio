@@ -1,31 +1,23 @@
-import { nanoid, customAlphabet } from "nanoid";
 import {
   Flex,
-  Editable,
-  Box,
   Text,
   Image,
-  EditableInput,
-  Button,
-  EditablePreview,
-  ButtonGroup,
-  IconButton,
   Drawer,
   DrawerBody,
   Divider,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useDisclosure,
-  Input,
   useTheme,
   PseudoBox,
+  Button,
+  Box,
+  useToast,
 } from "@chakra-ui/core";
-import { Drawings, gql, useSubscription } from "magiql";
+import { Drawings, gql, useSubscription, useMutation } from "magiql";
 import React from "react";
-import { SlNavigationMenu, SlWifiSignal1, SlSafetyVest } from "react-icons/sl";
+import { SlWifiSignal1, SlAdd } from "react-icons/sl";
 import { useStudio } from "./StudioContext";
 
 // https://excalidraw.com/#room=[0-9a-f]{20},[a-zA-Z0-9_-]{22}
@@ -75,55 +67,67 @@ const DrawingItem = ({
         {drawing.name}
         {drawing.is_live && <SlWifiSignal1 color={theme.colors.green[500]} />}
       </PseudoBox>
-      <Divider m={0} />
     </>
   );
-
-  // <Box key={drawing.id}>{drawing.name}</Box>;
 };
-
-// function EditableControls(props: any) {
-//   const { isEditing, onSubmit, onCancel, onRequestEdit } = props;
-//   return isEditing ? (
-//     <ButtonGroup justifyContent="center" size="sm" flexDirection="row">
-//       {/* <IconButton
-//         icon="check"
-//         onClick={() => {
-//           console.log("here");
-//         }}
-//         aria-label="change name"
-//       /> */}
-//       <IconButton icon="close" onClick={onCancel} aria-label="change name" />
-//     </ButtonGroup>
-//   ) : (
-//     <Flex direction="column" justifyContent="center">
-//       <IconButton
-//         size="sm"
-//         icon="edit"
-//         onClick={onRequestEdit}
-//         aria-label="change name"
-//       />
-//     </Flex>
-//   );
-// }
 
 export function DrawingTitle() {
   const { drawing } = useStudio();
-  return drawing ? (
+  return (
     <Text fontFamily="Virgil" fontSize="2xl">
-      {drawing.name}
+      {drawing ? drawing.name : "Untitled"}
     </Text>
-  ) : null;
+  );
 }
 
 export function DrawingsMenu() {
   const {
-    drawingId,
-    drawerState: { isOpen, onClose, onOpen },
+    drawerState: { isOpen, onClose },
     drawerButtonRef,
+    setDrawingId,
   } = useStudio();
 
-  const theme = useTheme();
+  const toast = useToast();
+
+  const [addDrawing] = useMutation(
+    gql`
+    mutation MyMutation {
+  insert_drawings_one(object: {name: "Untitled Drawing", file: {data: {contents: "{\"elements\": []}"}}}) {
+    created_at
+    file_id
+    id
+    last_edited
+    name
+    updated_at
+  }
+}
+
+  `,
+    {
+      onSettled: (data, error) => {
+        if (error) {
+          toast({
+            title: "Couldn't create drawing",
+            description: JSON.stringify(error),
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "New drawing created.",
+            description:
+              'New drawing "Untitled Drawing" created. Make sure to change the title to identify the drawing later',
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+          setDrawingId((data as any).insert_drawings_one.id);
+        }
+      },
+    }
+  );
+
   const { data, isSuccess } = useSubscription<
     { drawings: Drawings[] },
     {},
@@ -173,12 +177,21 @@ export function DrawingsMenu() {
           <Divider m={0} />
           {isSuccess &&
             data?.drawings.map((drawing: any) => (
-              <DrawingItem
-                key={drawing.id}
-                drawing={drawing}
-                closeDrawer={onClose}
-              />
+              <>
+                <DrawingItem
+                  key={drawing.id}
+                  drawing={drawing}
+                  closeDrawer={onClose}
+                />
+                <Divider m={0} />
+              </>
             ))}
+          <Button width="100%">
+            <SlAdd />
+            <Box ml={3} onClick={() => addDrawing()}>
+              New Drawing
+            </Box>
+          </Button>
         </DrawerBody>
       </DrawerContent>
     </Drawer>
