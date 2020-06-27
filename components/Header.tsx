@@ -367,26 +367,30 @@ export function DrawingHeader() {
           ref={drawerButtonRef}
         >
           <SlNavigationMenu size={16} color={theme.colors.gray[600]} />
-          <Text
-            // display={["none", "none", "none", "block"]}
-            fontFamily="Virgil"
-            color="gray.600"
-            fontSize={18}
-            lineHeight="1em"
-            m={0}
-            ml={3}
-            mr={2}
-          >
-            Excalidraw
-          </Text>
-          <Text
-            // display={["none", "none", "none", "block"]}
-            color="gray.400"
-            fontSize={14}
-            m={0}
-          >
-            Studio
-          </Text>
+          {!drawing && (
+            <>
+              <Text
+                // display={["none", "none", "none", "block"]}
+                fontFamily="Virgil"
+                color="gray.600"
+                fontSize={18}
+                lineHeight="1em"
+                m={0}
+                ml={3}
+                mr={2}
+              >
+                Excalidraw
+              </Text>
+              <Text
+                // display={["none", "none", "none", "block"]}
+                color="gray.400"
+                fontSize={14}
+                m={0}
+              >
+                Studio
+              </Text>
+            </>
+          )}
         </Button>
       </Stack>
       <Flex direction="row" flex={1} justify="center">
