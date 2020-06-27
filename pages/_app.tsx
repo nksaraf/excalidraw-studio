@@ -17,7 +17,7 @@ function ExcalidrawStudioApp({ Component, pageProps }: any) {
   const client = React.useMemo(
     () =>
       createClient("https://excalidraw.herokuapp.com/v1/graphql", {
-        subscriptionUrl: "ws://excalidraw.herokuapp.com/v1/graphql",
+        subscriptionUrl: "wss://excalidraw.herokuapp.com/v1/graphql",
         config: {
           mutations: {
             onError: (e: any) => {
