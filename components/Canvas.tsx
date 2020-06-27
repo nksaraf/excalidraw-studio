@@ -1,91 +1,19 @@
 import React from "react";
 import Excalidraw, { ExcalidrawProps } from "excalidraw";
 import { Box } from "@chakra-ui/core";
+import { useSession } from "./Session";
 import { useStudio } from "./StudioContext";
-// import { useRouter } from "next/router";
-import { useMutation, gql } from "magiql";
-// import parse from "url-parse";
-import { createContext } from "create-hook-context";
-
-const [CollaborationSessionProvider, useCollaborationSession] = createContext(
-  ({}: {}) => {
-    const [collaborationLink, setCollaborationLink] = React.useState<
-      string | undefined
-    >(undefined);
-
-    const [updateLastEdited] = useUpdateLastEdited();
-    const { drawingId } = useStudio();
-
-    React.useEffect(() => {
-      if (drawingId && collaborationLink) {
-        updateLastEdited({
-          id: drawingId,
-          last_edited: "now()",
-          collaboration_link: collaborationLink,
-        } as any);
-        const interval = setInterval(() => {
-          updateLastEdited({
-            id: drawingId,
-            last_edited: "now()",
-            collaboration_link: collaborationLink,
-          } as any);
-        }, 5000);
-
-        return () => {
-          clearInterval(interval);
-        };
-      }
-    }, [collaborationLink, drawingId]);
-
-    const appStateRef = React.useRef();
-    const elementsRef = React.useRef();
-
-    return {
-      collaborationLink,
-      setCollaborationLink,
-      appStateRef,
-      elementsRef,
-    };
-  },
-  undefined,
-  "CollaborationSession"
-);
 
 export interface CanvasProps extends Partial<ExcalidrawProps> {
   resolveWidth?: (w: number) => number;
   resolveHeight?: (w: number) => number;
 }
 
-const useUpdateLastEdited = () => {
-  return useMutation<
-    any,
-    { id: number; last_edited: string; collaboration_link: string },
-    Error
-  >(gql`
-    mutation updateLastEdited(
-      $last_edited: timestamptz
-      $id: Int!
-      $collaboration_link: String
-    ) {
-      update_drawings_by_pk(
-        pk_columns: { id: $id }
-        _set: {
-          last_edited: $last_edited
-          collaboration_link: $collaboration_link
-        }
-      ) {
-        last_edited
-        collaboration_link
-      }
-    }
-  `);
-};
-
 const getButtonByClassName = (className: string) => {
   return document.getElementsByClassName(className)[0] as HTMLButtonElement;
 };
 
-const startCollaborationSession = async (): Promise<string> => {
+const startSession = async (): Promise<string> => {
   return new Promise((resolve, reject) => {
     const collaborationButton = getButtonByClassName("RoomDialog-modalButton");
     if (collaborationButton) {
@@ -115,24 +43,20 @@ const startCollaborationSession = async (): Promise<string> => {
   });
 };
 
-export default function Canvas(props: CanvasProps) {
-  return (
-    <CollaborationSessionProvider>
-      <ExcalidrawCanvas {...props} />
-    </CollaborationSessionProvider>
-  );
-}
-
-export function ExcalidrawCanvas({
+export default function ExcalidrawCanvas({
   resolveWidth = (w) => w,
   resolveHeight = (h) => h,
   ...props
 }: CanvasProps) {
   const {
-    setCollaborationLink,
+    setSessionLink,
+    sessionLink,
     appStateRef,
     elementsRef,
-  } = useCollaborationSession();
+    updateLastEdited,
+  } = useSession();
+
+  const { drawingId } = useStudio();
 
   const onUsernameChange = (username: any) => {
     console.log("current username", username);
@@ -147,14 +71,42 @@ export function ExcalidrawCanvas({
     if (!window.location.hash.includes("room")) {
       (async () => {
         try {
-          setCollaborationLink(await startCollaborationSession());
+          const collabSessionLink = await startSession();
+          setSessionLink(collabSessionLink);
         } catch (e) {
           console.error(e);
         }
       })();
     } else {
-      setCollaborationLink(window.location.hash);
+      setSessionLink(window.location.hash);
     }
+  }, [sessionLink]);
+
+  React.useLayoutEffect(() => {
+    const beforeUnloadhandler = (event: any) => {
+      // Cancel the event as stated by the standard.
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = "";
+    };
+
+    const unloadHander = (event: any) => {
+      // Cancel the event as stated by the standard.
+      event.preventDefault();
+      updateLastEdited({
+        id: drawingId,
+        last_edited: "now()",
+        collaboration_link: null,
+      } as any);
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadhandler);
+    window.addEventListener("unload", unloadHander);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadhandler);
+      window.removeEventListener("unload", unloadHander);
+    };
   }, []);
 
   const [dimensions, setDimensions] = React.useState({

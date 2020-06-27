@@ -12,13 +12,13 @@ import {
   useTheme,
   PseudoBox,
   Button,
-  Box,
-  useToast,
+  Progress,
+  CircularProgress,
 } from "@chakra-ui/core";
 import { Drawings, gql, useSubscription, useMutation } from "magiql";
 import React from "react";
-import { SlWifiSignal1, SlAdd } from "react-icons/sl";
-import { useStudio } from "./StudioContext";
+import { SlWifiSignal1, SlAdd, SlDesignToolPens } from "react-icons/sl";
+import { useStudio, useCreateNewDrawing } from "./StudioContext";
 
 // https://excalidraw.com/#room=[0-9a-f]{20},[a-zA-Z0-9_-]{22}
 // const roomIdGenerator = customAlphabet("0123456789abcdef", 20);
@@ -51,8 +51,6 @@ const DrawingItem = ({
             location.hash = "";
           }
           setDrawingId(drawing.id);
-          setDrawingId(drawing.id);
-
           closeDrawer();
         }}
         display="flex"
@@ -71,64 +69,15 @@ const DrawingItem = ({
   );
 };
 
-export function DrawingTitle() {
-  const { drawing } = useStudio();
-  return (
-    <Text fontFamily="Virgil" fontSize="2xl">
-      {drawing ? drawing.name : "Untitled"}
-    </Text>
-  );
-}
-
 export function DrawingsMenu() {
   const {
     drawerState: { isOpen, onClose },
     drawerButtonRef,
-    setDrawingId,
   } = useStudio();
 
-  const toast = useToast();
+  const createDrawing = useCreateNewDrawing();
 
-  const [addDrawing] = useMutation(
-    gql`
-    mutation MyMutation {
-  insert_drawings_one(object: {name: "Untitled Drawing", file: {data: {contents: "{\"elements\": []}"}}}) {
-    created_at
-    file_id
-    id
-    last_edited
-    name
-    updated_at
-  }
-}
-
-  `,
-    {
-      onSettled: (data, error) => {
-        if (error) {
-          toast({
-            title: "Couldn't create drawing",
-            description: JSON.stringify(error),
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
-        } else {
-          toast({
-            title: "New drawing created.",
-            description:
-              'New drawing "Untitled Drawing" created. Make sure to change the title to identify the drawing later',
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-          });
-          setDrawingId((data as any).insert_drawings_one.id);
-        }
-      },
-    }
-  );
-
-  const { data, isSuccess } = useSubscription<
+  const { data, isSuccess, isLoading } = useSubscription<
     { drawings: Drawings[] },
     {},
     Error
@@ -174,23 +123,25 @@ export function DrawingsMenu() {
           </Flex>
         </DrawerHeader>
         <DrawerBody>
-          <Divider m={0} />
-          {isSuccess &&
-            data?.drawings.map((drawing: any) => (
-              <>
-                <DrawingItem
-                  key={drawing.id}
-                  drawing={drawing}
-                  closeDrawer={onClose}
-                />
-                <Divider m={0} />
-              </>
-            ))}
-          <Button width="100%">
-            <SlAdd />
-            <Box ml={3} onClick={() => addDrawing()}>
-              New Drawing
-            </Box>
+          {isLoading && (
+            <Flex width="100%" justifyContent="center">
+              <CircularProgress capIsRound isIndeterminate color="gray" />
+            </Flex>
+          )}
+          {isSuccess && (
+            <>
+              <Divider m={0} />
+              {data?.drawings.map((drawing: any) => (
+                <React.Fragment key={drawing.id}>
+                  <DrawingItem drawing={drawing} closeDrawer={onClose} />
+                  <Divider m={0} />
+                </React.Fragment>
+              ))}
+            </>
+          )}
+          <Button mt={6} width="100%" color="gray.500" onClick={createDrawing}>
+            <SlDesignToolPens style={{ marginRight: 8 }} />
+            Create New Drawing
           </Button>
         </DrawerBody>
       </DrawerContent>
