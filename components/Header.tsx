@@ -18,8 +18,15 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useToast,
+  ButtonProps,
 } from "@chakra-ui/core";
-import { SlNavigationMenu, SlUserSignal1 } from "react-icons/sl";
+import {
+  SlNavigationMenu,
+  SlUserSignal1,
+  SlDelete,
+  SlClose,
+  SlFloppyDisk,
+} from "react-icons/sl";
 import { useStudio, useCreateNewDrawing } from "./StudioContext";
 import { useMutation, gql, useClient } from "magiql";
 import { useSession } from "./Session";
@@ -55,7 +62,7 @@ export function DrawingTitle() {
   return drawing && drawing.name ? (
     <Editable
       fontFamily="Virgil"
-      fontSize="2xl"
+      fontSize={["xl", "xl", "2xl"]}
       key={drawing.id}
       defaultValue={drawing.name}
       onSubmit={(val) => {
@@ -69,11 +76,16 @@ export function DrawingTitle() {
       <EditableInput />
     </Editable>
   ) : isLoading ? (
-    <Text fontFamily="Virgil" fontSize="2xl" color="gray.300">
+    <Text fontFamily="Virgil" fontSize={["xl", "xl", "2xl"]} color="gray.300">
       Loading
     </Text>
   ) : (
-    <Text fontFamily="Virgil" fontSize="2xl" color="gray.300">
+    <Text
+      fontFamily="Virgil"
+      fontSize={["l", "l", "2xl"]}
+      textAlign="center"
+      color="gray.300"
+    >
       <PseudoBox
         as="span"
         cursor="pointer"
@@ -81,7 +93,7 @@ export function DrawingTitle() {
         color="gray.400"
         _hover={{ borderBottom: "solid 2px " + theme.colors.gray[400] }}
       >
-        Select a drawing
+        Edit a drawing
       </PseudoBox>{" "}
       or{" "}
       <PseudoBox
@@ -140,13 +152,12 @@ function SaveButton() {
   const { elementsRef } = useSession();
 
   return (
-    <Button
-      variant="solid"
+    <ToolbarButton
       backgroundColor="blue.500"
-      isDisabled={status === "loading"}
       _hover={{
         backgroundColor: "blue.400",
       }}
+      isDisabled={status === "loading"}
       onClick={() => {
         saveDrawing({
           drawing_id: drawing?.id,
@@ -159,10 +170,9 @@ function SaveButton() {
           }),
         } as any);
       }}
-      color="white"
-    >
-      Save
-    </Button>
+      text="Save"
+      icon={<SlFloppyDisk />}
+    />
   );
 }
 
@@ -204,18 +214,15 @@ function DeleteButton() {
 
   return (
     <>
-      <Button
-        variant="solid"
+      <ToolbarButton
         _hover={{
           backgroundColor: "red.400",
         }}
         onClick={onOpen}
         backgroundColor="red.500"
-        color="white"
-      >
-        Delete
-      </Button>
-
+        text="Delete"
+        icon={<SlDelete />}
+      />
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -262,6 +269,24 @@ function DeleteButton() {
   );
 }
 
+function ToolbarButton({
+  text,
+  icon,
+  ...props
+}: Omit<ButtonProps, "children"> & {
+  text: string;
+  icon: React.ReactElement;
+}) {
+  return (
+    <Button variant="solid" px={[2, 2, 3, 4]} minW={1} color="white" {...props}>
+      {icon}
+      <Box display={["none", "none", "none", "block"]} ml={2}>
+        {text}
+      </Box>
+    </Button>
+  );
+}
+
 function CloseButton() {
   const { changeDrawingId } = useSession();
   const {
@@ -271,8 +296,7 @@ function CloseButton() {
 
   return (
     <>
-      <Button
-        variant="solid"
+      <ToolbarButton
         backgroundColor="gray.500"
         _hover={{
           backgroundColor: "gray.400",
@@ -282,13 +306,9 @@ function CloseButton() {
           router.push("/");
           onOpen();
         }}
-        color="white"
-      >
-        {/* <Box mr={2}>
-    <SlUserSignal1 />
-  </Box> */}
-        Close
-      </Button>
+        text="Close"
+        icon={<SlClose />}
+      />
     </>
   );
 }
@@ -299,7 +319,7 @@ export function DrawingToolbar() {
       width="100%"
       justifyContent="flex-end"
       direction="row"
-      spacing={4}
+      spacing={[2, 2, 3, 4]}
       shouldWrapChildren={true}
     >
       <SaveButton />
@@ -322,9 +342,14 @@ export function DrawingHeader() {
       height="48px"
       bg="gray.100"
       width="100%"
-      gridTemplateColumns="1fr 2fr 1fr"
+      gridTemplateColumns={[
+        "1fr 6fr 1fr",
+        "1fr 6fr 1fr",
+        "1fr 6fr 1fr",
+        "1fr 3fr 1fr",
+      ]}
       alignItems="center"
-      px={4}
+      px={[3, 3, 4, 5]}
     >
       <Stack
         direction="row"
@@ -335,22 +360,32 @@ export function DrawingHeader() {
         <Button
           aria-label="open drawings menu"
           onClick={onOpen}
+          display="flex"
+          alignItems="center"
           ref={drawerButtonRef}
         >
           <SlNavigationMenu size={16} color={theme.colors.gray[600]} />
+          <Text
+            display={["none", "none", "none", "block"]}
+            fontFamily="Virgil"
+            color="gray.600"
+            fontSize={18}
+            lineHeight="1em"
+            m={0}
+            ml={3}
+            mr={2}
+          >
+            Excalidraw
+          </Text>
+          <Text
+            display={["none", "none", "none", "block"]}
+            color="gray.400"
+            fontSize={14}
+            m={0}
+          >
+            Studio
+          </Text>
         </Button>
-        <Text
-          fontFamily="Virgil"
-          color="gray.600"
-          fontSize={18}
-          lineHeight="1em"
-          m={0}
-        >
-          Excalidraw
-        </Text>
-        <Text color="gray.400" fontSize={14} m={0}>
-          Studio
-        </Text>
       </Stack>
       <Flex direction="row" flex={1} justify="center">
         <DrawingTitle />

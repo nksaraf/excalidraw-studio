@@ -47,7 +47,7 @@ const DrawingItem = ({
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        fontSize={16}
+        fontSize={[14, 14, 16]}
         py={2}
         px={2}
         fontWeight="medium"
@@ -96,18 +96,18 @@ export function DrawingsMenu() {
         <DrawerCloseButton />
         <DrawerHeader mt={6}>
           <Flex alignItems="center" ml={-4}>
-            <Image src="/apple-touch-icon.png" height="48px" />
+            <Image src="/apple-touch-icon.png" height={[12, 12, 16]} />
             <Flex direction="column">
               <Text
                 fontFamily="Virgil"
                 color="gray.600"
-                fontSize={24}
+                fontSize={[18, 18, 20, 24]}
                 lineHeight="1em"
                 m={0}
               >
                 Excalidraw
               </Text>
-              <Text color="gray.400" fontSize={18} m={0}>
+              <Text color="gray.400" fontSize={[14, 14, 16, 18]} m={0}>
                 Studio
               </Text>
             </Flex>
