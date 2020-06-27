@@ -24,6 +24,7 @@
     "next": "latest",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-dropzone": "^11.0.1",
     "react-icons": "npm:@nksaraf/react-icons",
     "react-query": "npm:@nksaraf/react-query",
     "react-query-devtools": "^2.1.1",

@@ -262,6 +262,37 @@ function DeleteButton() {
   );
 }
 
+function CloseButton() {
+  const { changeDrawingId } = useSession();
+  const {
+    drawerState: { onOpen },
+  } = useStudio();
+  const router = useRouter();
+
+  return (
+    <>
+      <Button
+        variant="solid"
+        backgroundColor="gray.500"
+        _hover={{
+          backgroundColor: "gray.400",
+        }}
+        onClick={() => {
+          changeDrawingId(undefined);
+          router.push("/");
+          onOpen();
+        }}
+        color="white"
+      >
+        {/* <Box mr={2}>
+    <SlUserSignal1 />
+  </Box> */}
+        Close
+      </Button>
+    </>
+  );
+}
+
 export function DrawingToolbar() {
   return (
     <Stack
@@ -272,19 +303,7 @@ export function DrawingToolbar() {
       shouldWrapChildren={true}
     >
       <SaveButton />
-      <Button
-        variant="solid"
-        backgroundColor="gray.500"
-        _hover={{
-          backgroundColor: "gray.400",
-        }}
-        color="white"
-      >
-        <Box mr={2}>
-          <SlUserSignal1 />
-        </Box>
-        Refresh Session
-      </Button>
+      <CloseButton />
       <DeleteButton />
     </Stack>
   );
