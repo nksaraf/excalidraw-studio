@@ -26,6 +26,7 @@ import {
   SlDelete,
   SlClose,
   SlFloppyDisk,
+  SlBin,
 } from "react-icons/sl";
 import { useStudio, useCreateNewDrawing } from "./StudioContext";
 import { useMutation, gql, useClient } from "magiql";
@@ -221,7 +222,7 @@ function DeleteButton() {
         onClick={onOpen}
         backgroundColor="red.500"
         text="Delete"
-        icon={<SlDelete />}
+        icon={<SlBin />}
       />
       <AlertDialog
         isOpen={isOpen}
