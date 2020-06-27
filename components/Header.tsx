@@ -86,6 +86,7 @@ export function DrawingTitle() {
       fontSize={["l", "l", "2xl"]}
       textAlign="center"
       color="gray.300"
+      display={["none", "none", "none", "block"]}
     >
       <PseudoBox
         as="span"
@@ -367,7 +368,7 @@ export function DrawingHeader() {
         >
           <SlNavigationMenu size={16} color={theme.colors.gray[600]} />
           <Text
-            display={["none", "none", "none", "block"]}
+            // display={["none", "none", "none", "block"]}
             fontFamily="Virgil"
             color="gray.600"
             fontSize={18}
@@ -379,7 +380,7 @@ export function DrawingHeader() {
             Excalidraw
           </Text>
           <Text
-            display={["none", "none", "none", "block"]}
+            // display={["none", "none", "none", "block"]}
             color="gray.400"
             fontSize={14}
             m={0}

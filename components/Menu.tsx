@@ -47,7 +47,7 @@ const DrawingItem = ({
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        fontSize={[14, 14, 16]}
+        fontSize={["sm", "sm", "md", "md"]}
         py={2}
         px={2}
         fontWeight="medium"
@@ -101,13 +101,13 @@ export function DrawingsMenu() {
               <Text
                 fontFamily="Virgil"
                 color="gray.600"
-                fontSize={[18, 18, 20, 24]}
+                fontSize={[18, 18, 18, 20]}
                 lineHeight="1em"
                 m={0}
               >
                 Excalidraw
               </Text>
-              <Text color="gray.400" fontSize={[14, 14, 16, 18]} m={0}>
+              <Text color="gray.400" fontSize={[14, 14, 14, 16]} m={0}>
                 Studio
               </Text>
             </Flex>
@@ -130,7 +130,13 @@ export function DrawingsMenu() {
               ))}
             </>
           )}
-          <Button mt={6} width="100%" color="gray.500" onClick={createDrawing}>
+          <Button
+            mt={6}
+            width="100%"
+            color="gray.500"
+            fontSize={["sm", "sm", "md", "md"]}
+            onClick={createDrawing}
+          >
             <SlDesignToolPens style={{ marginRight: 8 }} />
             Create New Drawing
           </Button>
