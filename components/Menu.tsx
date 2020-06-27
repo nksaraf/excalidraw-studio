@@ -12,22 +12,13 @@ import {
   useTheme,
   PseudoBox,
   Button,
-  Progress,
   CircularProgress,
 } from "@chakra-ui/core";
-import { Drawings, gql, useSubscription, useMutation } from "magiql";
+import { Drawings, gql, useSubscription } from "magiql";
 import React from "react";
-import { SlWifiSignal1, SlAdd, SlDesignToolPens } from "react-icons/sl";
+import { SlDesignToolPens, SlPencil2 } from "react-icons/sl";
 import { useStudio, useCreateNewDrawing } from "./StudioContext";
-
-// https://excalidraw.com/#room=[0-9a-f]{20},[a-zA-Z0-9_-]{22}
-// const roomIdGenerator = customAlphabet("0123456789abcdef", 20);
-
-// export const createCollaborationLink = () => {
-//   const encryptionKey = nanoid(22);
-//   const roomId = roomIdGenerator();
-//   return `#room=${roomId},${encryptionKey}`;
-// };
+import { useSession } from "./Session";
 
 const DrawingItem = ({
   drawing,
@@ -36,7 +27,7 @@ const DrawingItem = ({
   drawing: Drawings;
   closeDrawer: any;
 }) => {
-  const { setDrawingId } = useStudio();
+  const { changeDrawingId } = useSession();
   const theme = useTheme();
   return (
     <>
@@ -50,7 +41,7 @@ const DrawingItem = ({
           } else {
             location.hash = "";
           }
-          setDrawingId(drawing.id);
+          changeDrawingId(drawing.id);
           closeDrawer();
         }}
         display="flex"
@@ -63,7 +54,7 @@ const DrawingItem = ({
         flexDirection="row"
       >
         {drawing.name}
-        {drawing.is_live && <SlWifiSignal1 color={theme.colors.green[500]} />}
+        {drawing.is_live && <SlPencil2 color={theme.colors.green[500]} />}
       </PseudoBox>
     </>
   );
@@ -83,7 +74,7 @@ export function DrawingsMenu() {
     Error
   >(gql`
     subscription liveDrawings {
-      drawings {
+      drawings(order_by: { created_at: desc }) {
         collaboration_link
         file_id
         id

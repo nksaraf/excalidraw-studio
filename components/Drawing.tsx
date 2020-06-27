@@ -1,26 +1,18 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import {
-  Box,
-  Flex,
-  useTheme,
-  Stack,
-  Button,
-  CircularProgress,
-} from "@chakra-ui/core";
+import { Flex, useTheme, Button, CircularProgress } from "@chakra-ui/core";
 import { CanvasProps } from "components/Canvas";
 import { useStudio, useCreateNewDrawing } from "components/StudioContext";
-import { SlDesignDrawingBoard, SlDesignToolPens, SlAdd } from "react-icons/sl";
+import { SlDesignDrawingBoard, SlDesignToolPens } from "react-icons/sl";
 
 const Canvas = dynamic(() => import("components/Canvas"), {
   ssr: false,
 });
 
 export const Drawing = (props: CanvasProps) => {
-  const { status, drawingData, drawingId, drawing, isLoading } = useStudio();
+  const { drawingData, drawingId, drawing, isLoading } = useStudio();
   const theme = useTheme();
   const createDrawing = useCreateNewDrawing();
-  const loading = false;
   return drawing ? (
     <Canvas
       initialData={drawingData.elements}

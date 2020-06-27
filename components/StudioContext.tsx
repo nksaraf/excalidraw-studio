@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useQuery, gql, Drawings, useMutation } from "magiql";
 import { useDisclosure, useToast } from "@chakra-ui/core";
 import { useRouter } from "next/router";
+import { useUpdateLastEdited, useSession } from "./Session";
 
 const useDrawingById = ({ id }: { id: number | undefined }) => {
   const { data, ...query } = useQuery<
@@ -51,49 +52,53 @@ const useDrawingById = ({ id }: { id: number | undefined }) => {
 };
 
 export const useCreateNewDrawing = () => {
-  const { setDrawingId } = useStudio();
+  const { changeDrawingId } = useSession();
   const toast = useToast();
   const router = useRouter();
   const [addDrawing] = useMutation(
     gql`
-    mutation MyMutation {
-      insert_drawings_one(object: {name: "Untitled Drawing", file: {data: {contents: "{\"elements\": []}"}}}) {
-        created_at
-        file_id
-        id
-        last_edited
-        name
-        updated_at
+      mutation createNewDrawing($name: String!, $contents: jsonb!) {
+        insert_drawings_one(
+          object: { name: $name, file: { data: { contents: $contents } } }
+        ) {
+          created_at
+          file_id
+          id
+          last_edited
+          name
+          updated_at
+        }
       }
-    }`,
+    `,
     {
-      onSuccess: (data) => {
-        // if (error) {
-        //   toast({
-        //     title: "Couldn't create drawing",
-        //     description: JSON.stringify(error),
-        //     status: "error",
-        //     duration: 5000,
-        //     isClosable: true,
-        //   });
-        // } else {
+      onSuccess: (data: any) => {
         toast({
-          title: "New drawing created.",
-          description:
-            'New drawing "Untitled Drawing" created. Make sure to change the title to identify the drawing later',
+          title: `New drawing "${data?.insert_drawings_one?.name}" created`,
+          description: `Make sure to change the title to identify the drawing later`,
           status: "success",
           duration: 5000,
           isClosable: true,
         });
 
-        setDrawingId((data as any).insert_drawings_one.id);
+        changeDrawingId(data.insert_drawings_one.id);
         router.push("/");
-        // }
       },
     }
   );
 
-  return React.useCallback(() => addDrawing(), [addDrawing]);
+  return React.useCallback(
+    ({ name = "Untitled Drawing", elements = [] }) =>
+      addDrawing({
+        name,
+        contents: JSON.stringify({
+          type: "excalidraw",
+          version: 2,
+          source: "https://excalidraw-studio.vercel.app",
+          elements,
+        }),
+      } as any),
+    [addDrawing]
+  );
 };
 
 export const [StudioProvider, useStudio] = createContext(
@@ -132,14 +137,13 @@ export const [StudioProvider, useStudio] = createContext(
           collaboration_link:
             typeof window !== "undefined" ? location.hash : undefined,
         },
-        enabled: typeof window !== "undefined",
+        enabled: typeof window !== "undefined" && drawingId === undefined,
         refetchOnWindowFocus: false,
         onSuccess: (data: any) => {
           if (data.drawings.length) {
             const drawing = data.drawings[0];
-            console.log(drawing);
             if (drawing.is_live) {
-              setDrawingId(data.drawings[0].id);
+              setDrawingId(drawing.id);
             } else {
               router.push("/");
             }
@@ -150,7 +154,13 @@ export const [StudioProvider, useStudio] = createContext(
       }
     );
 
-    return { drawingId, setDrawingId, ...query, drawerState, drawerButtonRef };
+    return {
+      drawingId,
+      ...query,
+      setDrawingId,
+      drawerState,
+      drawerButtonRef,
+    };
   },
   undefined,
   "Studio"

@@ -4,11 +4,6 @@ import { Box } from "@chakra-ui/core";
 import { useSession } from "./Session";
 import { useStudio } from "./StudioContext";
 
-export interface CanvasProps extends Partial<ExcalidrawProps> {
-  resolveWidth?: (w: number) => number;
-  resolveHeight?: (w: number) => number;
-}
-
 const getButtonByClassName = (className: string) => {
   return document.getElementsByClassName(className)[0] as HTMLButtonElement;
 };
@@ -43,7 +38,12 @@ const startSession = async (): Promise<string> => {
   });
 };
 
-export default function ExcalidrawCanvas({
+export interface CanvasProps extends Partial<ExcalidrawProps> {
+  resolveWidth?: (w: number) => number;
+  resolveHeight?: (w: number) => number;
+}
+
+export default function Canvas({
   resolveWidth = (w) => w,
   resolveHeight = (h) => h,
   ...props
@@ -58,9 +58,7 @@ export default function ExcalidrawCanvas({
 
   const { drawingId } = useStudio();
 
-  const onUsernameChange = (username: any) => {
-    console.log("current username", username);
-  };
+  const onUsernameChange = (username: any) => {};
 
   const onChange = (elements: any, state: any) => {
     appStateRef.current = state;
@@ -95,7 +93,6 @@ export default function ExcalidrawCanvas({
       event.preventDefault();
       updateLastEdited({
         id: drawingId,
-        last_edited: "now()",
         collaboration_link: null,
       } as any);
     };

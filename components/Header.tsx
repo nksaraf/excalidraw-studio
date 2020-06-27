@@ -24,7 +24,7 @@ import { useStudio, useCreateNewDrawing } from "./StudioContext";
 import { useMutation, gql, useClient } from "magiql";
 import { useSession } from "./Session";
 import { useRef } from "react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export function DrawingTitle() {
   const {
@@ -126,7 +126,7 @@ function SaveButton() {
       }
     `,
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast({
           title: `"${drawing?.name}"` + " saved",
           status: "success",
@@ -170,9 +170,10 @@ function DeleteButton() {
   const toast = useToast();
   const {
     drawing,
-    setDrawingId,
     drawerState: { onOpen: onDrawerOpen },
   } = useStudio();
+
+  const { changeDrawingId } = useSession();
 
   const [deleteDrawing, { status }] = useMutation(
     gql`
@@ -186,7 +187,7 @@ function DeleteButton() {
       }
     `,
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast({
           title: `"${drawing?.name}"` + " deleted",
           status: "error",
@@ -246,7 +247,7 @@ function DeleteButton() {
                   file_id: drawing?.file?.id,
                 } as any);
 
-                setDrawingId(undefined);
+                changeDrawingId(undefined);
                 router.push("/");
                 onDrawerOpen();
               }}
@@ -294,7 +295,6 @@ export function DrawingHeader() {
   const {
     drawerState: { onOpen },
     drawerButtonRef,
-    drawingId,
     drawing,
   } = useStudio();
 
