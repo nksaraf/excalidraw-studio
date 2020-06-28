@@ -20,14 +20,7 @@ import {
   useToast,
   ButtonProps,
 } from "@chakra-ui/core";
-import {
-  SlNavigationMenu,
-  SlUserSignal1,
-  SlDelete,
-  SlClose,
-  SlFloppyDisk,
-  SlBin,
-} from "react-icons/sl";
+import { SlNavigationMenu, SlClose, SlFloppyDisk, SlBin } from "react-icons/sl";
 import { useStudio, useCreateNewDrawing } from "./StudioContext";
 import { useMutation, gql, useClient } from "magiql";
 import { useSession } from "./Session";
@@ -168,7 +161,9 @@ function SaveButton() {
             type: "excalidraw",
             version: 2,
             source: "https://excalidraw-studio.vercel.app",
-            elements: elementsRef.current,
+            elements: (elementsRef.current as any)?.filter(
+              (element: any) => !element.isDeleted
+            ),
           }),
         } as any);
       }}
