@@ -48,7 +48,7 @@ export function DrawingTitle() {
     `,
     {
       onSuccess: () => {
-        client.cache.invalidateQueries("drawingById");
+        client.cache?.invalidateQueries("drawingById");
       },
     }
   );
