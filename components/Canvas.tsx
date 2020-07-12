@@ -3,6 +3,7 @@ import Excalidraw, { ExcalidrawProps } from "excalidraw";
 import { Box } from "@chakra-ui/core";
 import { useSession } from "./Session";
 import { useStudio } from "./StudioContext";
+import { EXCALIDRAW_USER_NAME_KEY } from "pages/login";
 
 const getButtonByClassName = (className: string) => {
   return document.getElementsByClassName(className)[0] as HTMLButtonElement;
@@ -131,7 +132,11 @@ export default function Canvas({
         initialData={[]}
         onChange={onChange}
         options={options}
-        user={{ name: "Excalidraw User" }}
+        user={{
+          name:
+            window.localStorage.getItem(EXCALIDRAW_USER_NAME_KEY) ||
+            "Excalidraw User",
+        }}
         onUsernameChange={onUsernameChange}
         {...props}
       />

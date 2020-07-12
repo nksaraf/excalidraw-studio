@@ -6686,10 +6686,10 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-magiql@^0.0.3-next.7:
-  version "0.0.3-next.7"
-  resolved "https://registry.yarnpkg.com/magiql/-/magiql-0.0.3-next.7.tgz#210cfe12088c0e4d5f617f74fcd12f696baaa30a"
-  integrity sha512-XQthS5bBXMn99AWf3huLh6bWnAgdO5p6UQUkwyGERmERtSkEW1HBRZ/yrfGRXCRxiyChrcjJecwLKIk03rg17g==
+magiql@^0.0.3-next.8:
+  version "0.0.3-next.8"
+  resolved "https://registry.yarnpkg.com/magiql/-/magiql-0.0.3-next.8.tgz#8888adf0cd1746f1dee17b5c2aa0ad3e0431e28f"
+  integrity sha512-YBuRnCMqu4EX9s3YCgzAsH13LHRDwikbpNeuekf5/M8li6eEgXcrLEGbnxpLPh9WI0Bxjm+vZP864j1sTW6Fsw==
   dependencies:
     "@babel/plugin-syntax-jsx" "^7.8.3"
     "@graphql-codegen/cli" "^1.13.5"
@@ -6703,7 +6703,6 @@ magiql@^0.0.3-next.7:
     isomorphic-unfetch "^3.0.0"
     pascal-case "^3.1.1"
     path "^0.12.7"
-    react-query "npm:@nksaraf/react-query"
     subscriptions-transport-ws "^0.9.16"
     use-debounce "^3.4.2"
 
@@ -8784,6 +8783,11 @@ react-focus-lock@^2.2.1:
     react-clientside-effect "^1.2.2"
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
+
+react-hook-form@^6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-6.0.4.tgz#c5fc36886f0b4cadd8a2b3bb83a3dbde01ab52a3"
+  integrity sha512-LQIQBenTkSLtwes2tiFzqkOlAaa/ppbiaAFnpngufS8eM139cl76h7YybJso96i6VOSIhlfRpUbDPc+VoA/bog==
 
 "react-icons@npm:@nksaraf/react-icons":
   version "0.0.1-beta.4"

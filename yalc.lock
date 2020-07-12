@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "magiql": {
+      "signature": "7bbd7bc61efcb365b6f28e2ce070934f",
+      "file": true,
+      "replaced": "^0.0.3-next.7"
+    }
+  }
+}
